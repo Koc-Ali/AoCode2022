@@ -1,16 +1,18 @@
 import os
 
+# file handling
+fileDir = os.path.dirname(os.path.realpath('__file__'))
 
-path_to_file = "~/901_src/PycharmProjects/AoCode2022/2022_advent_1.input.txt"
+#For accessing the file in the same folder
+filename = "2022_advent_1.input.txt"
+path_to_file = fileDir + '/' + filename
+
 file = open(os.path.expanduser(path_to_file))
+
+# problem solution
+
 elf_list = []
 sum = 0
-
-#for line in file:
-#    fields = line.strip().split()
-#    #print(fields[0], fields[1], fields[2], fields[3])
-#    print(fields[0])
-
 
 for line in file:
     line = line.strip() #preprocess line

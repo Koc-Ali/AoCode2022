@@ -1,7 +1,14 @@
 import os
 
-# path_to_file = "~/901_src/PycharmProjects/AoCode2022/2022_advent_8.small.input.txt"
-path_to_file = "~/901_src/PycharmProjects/AoCode2022/2022_advent_8.input.txt"
+fileDir = os.path.dirname(os.path.realpath('__file__'))
+print(fileDir)
+
+#For accessing the file in the same folder
+filename = "2022_advent_8.input.txt"
+# filename = "2022_advent_8.small.input.txt" # for testing
+path_to_file = fileDir + '/' + filename
+print(path_to_file)
+
 file = open(os.path.expanduser(path_to_file))
 
 tree_colums = []

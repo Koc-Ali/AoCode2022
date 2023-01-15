@@ -1,7 +1,15 @@
 import os
 
-path_to_file = "~/901_src/PycharmProjects/AoCode2022/2022_advent_3.input.txt"
+# file handling
+fileDir = os.path.dirname(os.path.realpath('__file__'))
+
+#For accessing the file in the same folder
+filename = "2022_advent_3.input.txt"
+path_to_file = fileDir + '/' + filename
+
 file = open(os.path.expanduser(path_to_file))
+
+# problem solution
 
 sum_priorities = 0
 
