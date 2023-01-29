@@ -21,10 +21,16 @@ position = {
 line_pos = [position]
 class MoveMatrix():
     head_pos_x = head_pos_y = 0
-    tail_pos_x = tail_pos_y = 0
+    max_tails = 9
+    position_value = int
+    position_value = 0
     def __init__(self):
         self.matrix = [line_pos]
-        print(self)
+        self.tails = []
+        for i in range(self.max_tails):
+            self.tails.append({'x': self.position_value, 'y': self.position_value})
+#        self.tails[0]['x'] = 1
+#        self.tails[1]['y'] = 2
 
     def move_head_one_step_right(self):
         max_column = len(self.matrix[0])
@@ -47,7 +53,8 @@ class MoveMatrix():
             for line in self.matrix:
                 line.insert(0, {'occupancy': 'free', 'tail_mark': False})
             # adjust tail position to extend matrix
-            self.tail_pos_x += 1
+            for i in range(self.max_tails):
+                self.tails[i]['x'] += 1
         else:
             # move head one pos to right
             self.head_pos_x -= 1
@@ -85,7 +92,9 @@ class MoveMatrix():
                 new_line.insert(0, {'occupancy': 'free', 'tail_mark': False})
             self.matrix.insert(self.head_pos_y, new_line)
             # adjust tail_pos_pointer
-            self.tail_pos_y += 1
+            for i in range(self.max_tails):
+                self.tails[i]['y'] += 1
+
         # move head one pos to down
         else:
             self.head_pos_y -= 1
@@ -95,47 +104,48 @@ class MoveMatrix():
     def move_tail(self):
         # self.print_move_matrix()
         # case: same horizontal line
-        if self.head_pos_y == self.tail_pos_y:
-            if self.tail_pos_x + 2 == self.head_pos_x:
-                self.tail_pos_x += 1
-            elif self.tail_pos_x - 2 == self.head_pos_x:
-                self.tail_pos_x -= 1
+        if self.head_pos_y == self.tails[0]['y']:
+            if self.tails[0]['x'] + 2 == self.head_pos_x:
+                self.tails[0]['x'] += 1
+            elif self.tails[0]['x'] - 2 == self.head_pos_x:
+                self.tails[0]['x'] -= 1
         # case: same vertical line
-        if self.head_pos_x == self.tail_pos_x:
-            if self.tail_pos_y + 2 == self.head_pos_y:
-                self.tail_pos_y += 1
-            elif self.tail_pos_y - 2 == self.head_pos_y:
-                self.tail_pos_y -= 1
+        if self.head_pos_x == self.tails[0]['x']:
+            if self.tails[0]['y'] + 2 == self.head_pos_y:
+                self.tails[0]['y'] += 1
+            elif self.tails[0]['y'] - 2 == self.head_pos_y:
+                self.tails[0]['y'] -= 1
 
         # case: vertical shift two line
-        if (self.tail_pos_x+1 == self.head_pos_x) and (self.tail_pos_y+2 == self.head_pos_y):
-            self.tail_pos_x += 1
-            self.tail_pos_y += 1
-        elif (self.tail_pos_x-1 == self.head_pos_x) and (self.tail_pos_y+2 == self.head_pos_y):
-            self.tail_pos_x -= 1
-            self.tail_pos_y += 1
-        elif (self.tail_pos_x+1 == self.head_pos_x) and (self.tail_pos_y-2 == self.head_pos_y):
-            self.tail_pos_x += 1
-            self.tail_pos_y -= 1
-        elif (self.tail_pos_x-1 == self.head_pos_x) and (self.tail_pos_y-2 == self.head_pos_y):
-            self.tail_pos_x -= 1
-            self.tail_pos_y -= 1
+        if (self.tails[0]['x'] + 1 == self.head_pos_x) and (self.tails[0]['y'] + 2 == self.head_pos_y):
+            self.tails[0]['x'] += 1
+            self.tails[0]['y'] += 1
+        elif (self.tails[0]['x'] - 1 == self.head_pos_x) and (self.tails[0]['y'] + 2 == self.head_pos_y):
+            self.tails[0]['x'] -= 1
+            self.tails[0]['y'] += 1
+        elif (self.tails[0]['x'] + 1 == self.head_pos_x) and (self.tails[0]['y'] - 2 == self.head_pos_y):
+            self.tails[0]['x'] += 1
+            self.tails[0]['y'] -= 1
+        elif (self.tails[0]['x'] - 1 == self.head_pos_x) and (self.tails[0]['y'] - 2 == self.head_pos_y):
+            self.tails[0]['x'] -= 1
+            self.tails[0]['y'] -= 1
 
         # case: vertical shift two lines
-        if (self.tail_pos_x+2 == self.head_pos_x) and (self.tail_pos_y+1 == self.head_pos_y):
-            self.tail_pos_x += 1
-            self.tail_pos_y += 1
-        elif (self.tail_pos_x-2 == self.head_pos_x) and (self.tail_pos_y+1 == self.head_pos_y):
-            self.tail_pos_x -= 1
-            self.tail_pos_y += 1
-        elif (self.tail_pos_x+2 == self.head_pos_x) and (self.tail_pos_y-1 == self.head_pos_y):
-            self.tail_pos_x += 1
-            self.tail_pos_y -= 1
-        elif (self.tail_pos_x-2 == self.head_pos_x) and (self.tail_pos_y-1 == self.head_pos_y):
-            self.tail_pos_x -= 1
-            self.tail_pos_y -= 1
+        if (self.tails[0]['x'] + 2 == self.head_pos_x) and (self.tails[0]['y'] + 1 == self.head_pos_y):
+            self.tails[0]['x'] += 1
+            self.tails[0]['y'] += 1
+        elif (self.tails[0]['x'] - 2 == self.head_pos_x) and (self.tails[0]['y'] + 1 == self.head_pos_y):
+            self.tails[0]['x'] -= 1
+            self.tails[0]['y'] += 1
+        elif (self.tails[0]['x'] + 2 == self.head_pos_x) and (self.tails[0]['y'] - 1 == self.head_pos_y):
+            self.tails[0]['x'] += 1
+            self.tails[0]['y'] -= 1
+        elif (self.tails[0]['x'] - 2 == self.head_pos_x) and (self.tails[0]['y'] - 1 == self.head_pos_y):
+            self.tails[0]['x'] -= 1
+            self.tails[0]['y'] -= 1
 
-        self.matrix[self.tail_pos_y][self.tail_pos_x]['tail_mark'] = True
+#        print('tail 0: ', self.tails[0]['y'], ' ', self.tails[0]['x'])
+        self.matrix[self.tails[0]['y']][self.tails[0]['x']]['tail_mark'] = True
 
     def print_move_matrix(self):
         # print lines in reverse order
@@ -143,7 +153,7 @@ class MoveMatrix():
         for line_index, line in enumerate(self.matrix, start=0):
             str_line = ''
             for pos_index, pos in enumerate(line, start=0):
-                if line_index == self.tail_pos_y and pos_index == self.tail_pos_x:
+                if line_index == self.tails[0]['y'] and pos_index == self.tails[0]['x']:
                     str_line += 'T'
                 elif line_index == self.head_pos_y and pos_index == self.head_pos_x:
                     str_line += 'H'
